@@ -2,37 +2,48 @@ document.addEventListener('DOMContentLoaded', function () {
     const navContainer = document.querySelector('.nav');
     const navItems = navContainer.querySelectorAll('.nav__item');
     const navList = navContainer.querySelector('.nav__list');
-    let newItems = '';
-    
+    let oldChild = null;
     let navItemsWidth = 0;
+
+    let subItem = document.createElement('li');
+    let subList = document.createElement('ul');
+    subItem.classList.add('nav__item', 'more');
+    subList.classList.add('sub-menu');
+    
     let navContainerWidth = outerWidth(navContainer);
 
     [...navItems].forEach((item) => {
         navItemsWidth += outerWidth(item);
-    })
+    });
 
 
     responsiveMenu();
 
     window.addEventListener('resize', function () {
-        responsiveMenu(); 
+        responsiveMenu();
     });
 
     function responsiveMenu() {
 
-        let oldChild = null;
         navContainerWidth = outerWidth(navContainer);
-        
-        while (navContainerWidth < navItemsWidth) {
-            navItemsWidth -= outerWidth(navList.lastElementChild);
-            oldChild = navList.removeChild(navList.lastElementChild);
-            console.log(navItemsWidth);
-            newItems += `<span>${oldChild}</span>`
-        }
-        console.log('items: ', navItemsWidth);
-        console.log('nav: ', navContainerWidth);
-        console.log(newItems);
 
+        while (navItemsWidth > navContainerWidth) {
+            navItemsWidth -= outerWidth(navList.lastElementChild);
+            oldChild = navList.removeChild(navList.children[navList.children.length - 1]);
+            subList.insertBefore(oldChild, subList.firstChild);
+
+        }
+        
+
+        if (subList.children.length) {
+            
+            subItem.appendChild(subList);
+            navList.appendChild(subItem);
+
+   
+        }
+        
+        
     }
 });
 
