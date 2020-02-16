@@ -17,11 +17,13 @@ body {
         list-style-type: none;
     }
     &__item {
-
+        &:not(:last-child) {
+            margin-right: 5px;
+        }
     }
     &__link {
         display: block;
-        padding: 4px 12px;
+        padding: 4px 16px;
         color: #ffffff;
         text-decoration: none;
         background-color: #404040;
